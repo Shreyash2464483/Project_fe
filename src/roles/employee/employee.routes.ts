@@ -11,7 +11,7 @@ export const emproutes: Routes=[{
     children:[
         {path:'dashboard',component:DashboardComponent},
         {path:'createidea',component:CreateideaComponent},
-        {path:'employee',redirectTo:'empdashboard',pathMatch:'full'}
+        {path:'employee',redirectTo:'dashboard',pathMatch:'full'}
     ]
     }
 ]

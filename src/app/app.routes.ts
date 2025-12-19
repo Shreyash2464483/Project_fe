@@ -33,20 +33,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('../roles/employee/employee.routes').then((m) => m.emproutes),
   },
-  {
-    path: 'employee',
-    loadComponent: () =>
-      import('../roles/employee/employee.component').then(
-        (m) => m.EmployeeComponent
-      ),
-  },
-  {
-    path: 'manager',
-    loadComponent: () =>
-      import('../roles/manager/manager.component').then(
-        (m) => m.ManagerComponent
-      ),
-  },
+{
+  path:'manager',
+  loadChildren:()=>
+    import('../roles/manager/manager.routes').then((m)=> m.mangerroutes),
+},
 
   { path: '**', component: Notfound404Component },
 ];
