@@ -1,8 +1,8 @@
 
   <!-- Navigation Bar -->
   <nav
-  class="sticky top-4 z-50 mx-auto max-w-6xl
-         rounded-full p-2
+  class="sticky top-0 z-100 mx-auto w-full
+         rounded-2xl p-4 text-2xl
          bg-white/10 backdrop-blur-xl
          border border-white/20
          shadow-lg shadow-black/20
@@ -23,7 +23,7 @@
           routerLink="/signin"
           routerLinkActive="active-link"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="nav-link"
+          class="nav-link text-blue-600"
         >
           Signin
         </a>
@@ -33,7 +33,7 @@
           routerLink="/signup"
           routerLinkActive="active-link"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="text-black "
+          class="text-blue-600 "
         >
           Signup
         </a>
@@ -47,12 +47,25 @@
 
   <!-- Left Content -->
   <div class="flex flex-col gap-6">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
-      Collaborate, Innovate,
-      <span class="bg-linear-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
-        Transform
-      </span>
-    </h1>
+
+<h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
+  Collaborate, Innovate,
+ <span
+    appTypewriter
+    [appTypewriter]="['Transform', 'Empower', 'Inspire']"
+    [typeSpeed]="70"
+    [deleteSpeed]="45"
+    [holdTime]="1200"
+    [pauseBetween]="500"
+    [loop]="true"
+    [startOnVisible]="false"
+    class="inline-block ml-2 pr-1 whitespace-nowrap typewriter-caret
+           bg-linear-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent
+           border-r-2 border-indigo-500"
+  ></span>
+
+</h1>
+
 
     <p class="text-lg text-gray-500 leading-relaxed">
       Empower your organization with a centralized idea collaboration platform.
@@ -64,7 +77,7 @@
       <button
         (click)="navigateTo('/signup')"
         class="px-6 py-3 md:px-8 md:py-4 text-white font-semibold rounded-lg text-lg
-               bg-linear-to-r from-blue-600 to-blue-800
+               bg-blue-600
                hover:shadow-xl hover:-translate-y-1 transition-all duration-200"
       >
         Start Free Now
@@ -100,12 +113,15 @@
   <!-- Right Illustration -->
   <div class="flex justify-center items-center">
     <div
-      class="w-87.5 h-87.5 rounded-2xl flex items-center justify-center text-7xl
+      class="transform transition-transform hover:rotate-3 hover:scale-105 w-87.5 h-87.5 rounded-2xl flex items-center justify-center text-7xl
              bg-linear-to-br from-indigo-400 to-purple-500
              shadow-2xl float-animation"
     >
       🚀
     </div>
+
+
+
   </div>
 
 </section>
@@ -185,12 +201,22 @@
     <div class="cta-content">
       <h2>Ready to Transform Your Organization?</h2>
       <p>Join thousands of teams already using Brainstorm to drive innovation</p>
-      <button
+      <!-- <button
         (click)="navigateTo('/signup')"
         class="btn btn-primary btn-lg btn-inverse"
       >
         Get Started for Free
-      </button>
+      </button> -->
+
+<button
+ (click)="navigateTo('/signup')"
+  class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 text-white font-semibold px-6 py-3 shadow-md hover:bg-indigo-700 transition-colors duration-200">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+  </svg>
+  Get Started For Free!
+</button>
+
     </div>
   </section>
 

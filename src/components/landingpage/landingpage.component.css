@@ -6,7 +6,8 @@
 
 /* Features Section */
 .features {
-  background: #f9fafb;
+  /* background: #f9fafb; */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 4rem 2rem;
 }
 
@@ -47,7 +48,7 @@
 }
 
 .feature-card p {
-  color: #6b7280;
+  color: #7d4f4f;
   margin: 0;
   line-height: 1.6;
 }
@@ -66,7 +67,7 @@
 
 .section-header p {
   font-size: 1.125rem;
-  color: #6b7280;
+  color: #ffffff;
   margin: 0;
 }
 
