@@ -1,36 +1,29 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { UserRole } from '../models/model';
+import { User, UserRole } from '../models/model';
  
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private userSub = new BehaviorSubject<{
-    loggedIn: boolean;
-    role: UserRole | null;
-    name?: string;
-  }>({
-    loggedIn: false,
-    role: null,
-    name: '',
-  });
+  private userSub = new BehaviorSubject<User | null>(null);
  
   user$ = this.userSub.asObservable();
  
   constructor() {
+    this.restoreUser();
+  }
+  private restoreUser() {
     try {
       const hasStorage =
         typeof window !== 'undefined' &&
         window.localStorage &&
         typeof window.localStorage.getItem === 'function';
       if (hasStorage) {
-        const raw = window.localStorage.getItem('auth');
+        const raw = window.localStorage.getItem('currentUser');
         if (raw) {
           try {
             this.userSub.next(JSON.parse(raw));
           } catch {
-            try {
-              window.localStorage.removeItem('auth');
-            } catch {}
+            this.logout();
           }
         }
       }
@@ -38,37 +31,43 @@ export class AuthService {
   }
  
   isLoggedIn(): boolean {
-    return this.userSub.value.loggedIn;
+    return !!this.userSub.value;
   }
+
   getUserRole(): UserRole | null {
-    return this.userSub.value.role;
+    return this.userSub.value?.role || null;
   }
+
   getUserName(): string | undefined {
-    return this.userSub.value.name;
+    return this.userSub.value?.name;
+  }
+
+  getCurrentUser(): User | null {
+    return this.userSub.value;
   }
  
-  login(role: UserRole, name?: string) {
-    const state = { loggedIn: true, role, name: name ?? '' };
-    this.userSub.next(state);
+  login(user: User) {
+    this.userSub.next(user);
     try {
       if (
         typeof window !== 'undefined' &&
         window.localStorage &&
         typeof window.localStorage.setItem === 'function'
       ) {
-        window.localStorage.setItem('auth', JSON.stringify(state));
+        window.localStorage.setItem('currentUser', JSON.stringify(user));
       }
     } catch {}
   }
  
   logout() {
-    this.userSub.next({ loggedIn: false, role: null, name: '' });
+    this.userSub.next(null);
     try {
       if (
         typeof window !== 'undefined' &&
         window.localStorage &&
         typeof window.localStorage.removeItem === 'function'
       ) {
+        window.localStorage.removeItem('currentUser');
         window.localStorage.removeItem('auth');
       }
     } catch {}

@@ -89,7 +89,7 @@ export class SignupComponent {
         }
       } catch {}
  
-      this.AuthService.login(role);
+      this.AuthService.login(user);
  
       this.loading = false;
  

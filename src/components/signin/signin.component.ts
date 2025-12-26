@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
- 
+
 @Component({
   selector: 'app-signin',
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
@@ -20,7 +20,7 @@ export class SigninComponent {
   submitted = false;
   loading = false;
   showPass = false;
- 
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -31,23 +31,23 @@ export class SigninComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
- 
+
   togglePassword() {
     this.showPass = !this.showPass;
   }
- 
+
   submit() {
     this.submitted = true;
- 
+
     if (this.form.invalid) {
       return;
     }
- 
+
     this.loading = true;
- 
+
     setTimeout(() => {
       const data = this.form.value;
- 
+
       let storedUser: string | null = null;
       try {
         if (
@@ -60,34 +60,22 @@ export class SigninComponent {
       } catch {
         storedUser = null;
       }
- 
+
       if (storedUser) {
         const user = JSON.parse(storedUser);
- 
+
         if (user.email === data.email) {
           if (!user.userID) {
             user.userID = Date.now();
-            try {
-              if (typeof window !== 'undefined' && window.localStorage) {
-                window.localStorage.setItem('user', JSON.stringify(user));
-              }
-            } catch {}
           }
- 
-          try {
-            if (typeof window !== 'undefined' && window.localStorage) {
-              window.localStorage.setItem('currentUser', JSON.stringify(user));
-            }
-          } catch {}
- 
-          try {
-            this.authService.login(user.role);
-          } catch {}
- 
+
+          // Use centralized AuthService
+          this.authService.login(user);
+
           this.loading = false;
- 
+
           const role = String(user.role).toLowerCase();
- 
+
           if (role === 'admin') {
             this.router.navigate(['/admin/dashboard']);
           } else if (role === 'manager') {
@@ -105,11 +93,11 @@ export class SigninComponent {
       }
     }, 1500);
   }
- 
+
   getControl(fieldName: string) {
     return this.form.get(fieldName);
   }
- 
+
   isInvalid(fieldName: string): boolean {
     const field = this.getControl(fieldName);
     return !!(
@@ -118,14 +106,14 @@ export class SigninComponent {
       (field.dirty || field.touched || this.submitted)
     );
   }
- 
+
   getError(fieldName: string): string {
     const field = this.getControl(fieldName);
- 
+
     if (!field || !field.errors) {
       return '';
     }
- 
+
     if (field.errors['required']) {
       return (
         fieldName.charAt(0).toUpperCase() + fieldName.slice(1) + ' is required'
@@ -141,7 +129,7 @@ export class SigninComponent {
     if (field.errors['email']) {
       return 'Please enter a valid email';
     }
- 
+
     return 'Invalid field';
   }
 }
