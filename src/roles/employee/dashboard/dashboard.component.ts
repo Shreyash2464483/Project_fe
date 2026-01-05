@@ -1,4 +1,3 @@
-// (no-op)
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,11 +15,20 @@ import { Idea, Comment as IdeaComment, User } from '../../../models/model';
 })
 export class DashboardComponent implements OnInit {
   ideas: Idea[] = [];
+  filterStatus: 'All' | 'UnderReview' | 'Approved' | 'Rejected' = 'All';
+
   selected: Idea | null = null;
   comments: IdeaComment[] = [];
   reviews: import('../../../models/model').Review[] = [];
   newComment = '';
   currentUser: User | null = null;
+
+  get filteredIdeas(): Idea[] {
+    if (this.filterStatus === 'All') {
+      return this.ideas;
+    }
+    return this.ideas.filter(idea => idea.status === this.filterStatus);
+  }
 
   constructor(
     private ideaService: IdeaService,
@@ -34,8 +42,6 @@ export class DashboardComponent implements OnInit {
       if (!this.selected && this.ideas.length) {
       }
     });
-
-    this.ideaService.seedIfEmpty(this.currentUser?.userID || 0);
   }
 
   loadCurrentUser() {
