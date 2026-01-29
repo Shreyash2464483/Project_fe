@@ -109,56 +109,38 @@ export class CategoryService {
         {
           name: 'Process Improvement',
           description: 'Ideas to improve existing processes and workflows',
-          icon: '🔄',
-          color: '#3B82F6',
         },
         {
           name: 'Product Innovation',
           description: 'New product ideas and innovative solutions',
-          icon: '💡',
-          color: '#F59E0B',
         },
         {
           name: 'Customer Experience',
           description: 'Enhance customer satisfaction and engagement',
-          icon: '👥',
-          color: '#10B981',
         },
         {
           name: 'Technology',
           description: 'Technology innovations and digital transformation',
-          icon: '💻',
-          color: '#8B5CF6',
         },
         {
           name: 'Cost Reduction',
           description: 'Ideas to reduce costs and optimize resources',
-          icon: '💰',
-          color: '#EF4444',
         },
         {
           name: 'HR & Culture',
           description: 'Human resources and workplace culture improvements',
-          icon: '🎯',
-          color: '#EC4899',
         },
         {
           name: 'Marketing',
           description: 'Marketing strategies and promotional ideas',
-          icon: '📢',
-          color: '#F97316',
         },
         {
           name: 'Operations',
           description: 'Operational efficiency and process optimization',
-          icon: '⚙️',
-          color: '#6366F1',
         },
         {
           name: 'Other',
           description: "Miscellaneous ideas that don't fit other categories",
-          icon: '📌',
-          color: '#6B7280',
         },
       ];
 
