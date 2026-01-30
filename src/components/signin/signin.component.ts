@@ -64,7 +64,7 @@ export class SigninComponent {
       if (storedUser) {
         const user = JSON.parse(storedUser);
 
-        if (user.email === data.email) {
+        if (user.email === data.email && user.password === data.password) {
           if (!user.userID) {
             user.userID = Date.now();
           }
