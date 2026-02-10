@@ -4,11 +4,11 @@
     <h2 class="text-3xl font-extrabold tracking-tight" style="color: var(--blue-500);">
       Ideas
     </h2>
-    
+
     <div class="flex items-center gap-2 bg-white rounded-lg shadow-sm border border-gray-200 px-3 py-1.5 backdrop-blur-sm">
       <label for="statusFilter" class="text-sm font-medium text-gray-600">Filter by status:</label>
-      <select 
-        id="statusFilter" 
+      <select
+        id="statusFilter"
         [(ngModel)]="filterStatus"
         class="text-sm font-medium bg-transparent border-none focus:ring-0 cursor-pointer text-(--blue-500)"
       >
@@ -40,10 +40,10 @@
         <div class="flex items-start justify-between gap-4">
           <div>
              <div class="flex items-center gap-2 mb-2">
-                <span 
+                <span
                   class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider"
                   [ngClass]="{
-                    'bg-yellow-100 text-yellow-700': idea.status === 'Rejected',
+                    'bg-yellow-100 text-yellow-700': idea.status === 'Draft',
                     'bg-(--blue-100) text-(--blue-500)': idea.status === 'UnderReview',
                     'bg-green-100 text-green-700': idea.status === 'Approved'
                   }"
@@ -87,8 +87,8 @@
                 <span class="font-bold">{{ idea.downvotes || 0 }}</span>
               </button>
            </div>
-           
-           <button 
+
+           <button
              class="text-sm font-medium text-(--blue-400) hover:text-(--blue-500)hover:underline flex items-center gap-1"
              (click)="selectIdea(idea)"
            >
@@ -96,7 +96,7 @@
              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
            </button>
         </div>
-        
+
         <div *ngIf="selected?.ideaID === idea.ideaID" class="mt-8 pt-6 border-t border-gray-100 bg-gray-50/50 -mx-6 -mb-6 px-6 pb-6 animate-fade-in">
            <!-- Reviews -->
            <div *ngIf="reviews.length" class="mb-6">
@@ -128,18 +128,18 @@
                  </div>
                  <div *ngIf="!comments.length" class="text-gray-500 italic text-sm">No comments yet.</div>
               </div>
-              
+
               <!-- Add Comment -->
               <div class="flex gap-2">
-                 <input 
-                   type="text" 
-                   [(ngModel)]="newComment" 
+                 <input
+                   type="text"
+                   [(ngModel)]="newComment"
                    placeholder="Add a comment..."
                    class="grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-(--blue-300) text-sm"
                    (keyup.enter)="addComment()"
                  >
-                 <button 
-                   (click)="addComment()" 
+                 <button
+                   (click)="addComment()"
                    [disabled]="!newComment.trim()"
                    class="bg-(--blue-500) text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-(--blue-400) disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                  >Post</button>

@@ -119,7 +119,7 @@ export class IdeaService {
     if (review.decision === 'Approve') {
       this.setIdeaStatus(review.ideaID, 'Approved');
     } else {
-      this.setIdeaStatus(review.ideaID, 'Rejected');
+      this.setIdeaStatus(review.ideaID, 'Draft');
     }
 
     return review;
@@ -133,7 +133,7 @@ export class IdeaService {
 
   setIdeaStatus(
     ideaID: number,
-    status: 'Rejected' | 'UnderReview' | 'Approved'
+    status: 'Draft' | 'UnderReview' | 'Approved'
   ) {
     const ideas = this.ideas$.value.slice();
     const idx = ideas.findIndex((i) => i.ideaID === ideaID);
@@ -237,7 +237,7 @@ export class IdeaService {
           'Organize 2-day hackathons every quarter to foster innovation.',
         categoryID: 1, // Process
         submittedByUserID: 5, // Bob
-        status: 'Rejected',
+        status: 'Draft',
         category: 'Process',
       },
       {
@@ -245,7 +245,7 @@ export class IdeaService {
         description: 'Allow well-behaved pets in the office on Fridays.',
         categoryID: 2, // HR
         submittedByUserID: 7, // Diana
-        status: 'Rejected',
+        status: 'Draft',
         category: 'HR',
       },
       {
@@ -322,7 +322,7 @@ export class IdeaService {
         description: 'Offer 50% subsidy for local gym memberships.',
         categoryID: 2, // HR
         submittedByUserID: 5, // Bob
-        status: 'Rejected',
+        status: 'Draft',
         category: 'HR',
       },
     ];
@@ -397,7 +397,7 @@ export class IdeaService {
           decision: 'Approve',
           reviewDate: new Date().toISOString(),
         });
-      } else if (idea.status === 'Rejected') {
+      } else if (idea.status === 'Draft') {
         this.addReview({
           ideaID: idea.ideaID,
           reviewerID: 2, // John Manager

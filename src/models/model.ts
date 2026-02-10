@@ -1,3 +1,4 @@
+
 export enum UserRole {
   ADMIN = 'admin',
   EMPLOYEE = 'employee',
@@ -20,10 +21,11 @@ export interface Idea {
   categoryID: number;
   submittedByUserID: number;
   submittedDate: string;
-  status: 'Rejected' | 'UnderReview' | 'Approved';
+  status : 'Draft' | 'UnderReview' | 'Approved';
   category?: string;
   upvotes?: number;
   downvotes?: number;
+  Comments?: Comment[];
 }
 export interface Review {
   reviewID?: number;
