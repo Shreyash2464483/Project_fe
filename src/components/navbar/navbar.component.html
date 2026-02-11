@@ -47,6 +47,11 @@
           [routerLinkActiveOptions]="{ exact: true }"
           class="text-(--blue-100) hover:text-white transition-colors">Create Idea</a>
       </li>
+      <li *ngIf="isEmployee()">
+        <a routerLink="/employee/myideas" routerLinkActive="font-semibold text-white"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="text-(--blue-100) hover:text-white transition-colors">My Ideas</a>
+      </li>
 
       <!-- Fallback for generic roles -->
       <li *ngIf="!isEmployee() && !isManager() && !isAdmin()">

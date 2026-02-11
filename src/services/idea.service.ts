@@ -18,11 +18,11 @@ export class IdeaService {
       next: (ideas) => {
         // Map backend response to frontend Idea model
         const mappedIdeas = ideas.map((idea) => ({
-          ideaID: idea.ideaId,
+          ideaID: idea.ideaID,
           title: idea.title,
           description: idea.description,
-          categoryID: idea.categoryId,
-          submittedByUserID: idea.submittedByUserId || idea.userId,
+          categoryID: idea.categoryID,
+          userID: idea.userID,
           submittedDate: idea.submittedDate || new Date().toISOString(),
           status: idea.status || 'UnderReview',
           category: idea.categoryName || idea.category || '',
@@ -40,6 +40,30 @@ export class IdeaService {
 
   getAllIdeas(): Observable<Idea[]> {
     return this.ideas$.asObservable();
+  }
+
+  getMyIdeas(): Observable<Idea[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/my-ideas`).pipe(
+      tap((ideas) => {
+        console.log('My ideas from backend:', ideas);
+      }),
+      tap((ideas) => {
+        // Map backend response to frontend Idea model
+        const mappedIdeas = ideas.map((idea) => ({
+          ideaID: idea.ideaID,
+          title: idea.title,
+          description: idea.description,
+          categoryID: idea.categoryID,
+          userID: idea.userID,
+          submittedDate: idea.submittedDate || new Date().toISOString(),
+          status: idea.status || 'UnderReview',
+          category: idea.category || idea.category || '',
+          upvotes: idea.upvotes || 0,
+          downvotes: idea.downvotes || 0,
+        }));
+        return mappedIdeas;
+      }),
+    );
   }
 
   getIdeaById(id: number | string): Idea | undefined {
@@ -67,8 +91,8 @@ export class IdeaService {
           ideaID: response.ideaId,
           title: response.title,
           description: response.description,
-          categoryID: response.categoryId,
-          submittedByUserID: response.submittedByUserId || response.userId,
+          categoryID: response.categoryID,
+          userID: response.userID,
           submittedDate: response.submittedDate || new Date().toISOString(),
           status: response.status || 'UnderReview',
           category: response.categoryName || response.category || '',

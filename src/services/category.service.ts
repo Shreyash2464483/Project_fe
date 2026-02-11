@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
   private categories$ = new BehaviorSubject<Category[]>([]);
-  private apiUrl = 'https://localhost:7175/api/Admin/categories';
+  private apiUrl = 'https://localhost:7175/api/Categorie/categories';
 
   constructor(private http: HttpClient) {
     this.loadCategories();

@@ -19,7 +19,7 @@ export interface Idea {
   title: string;
   description: string;
   categoryID: number;
-  submittedByUserID: number;
+  userID: number;
   submittedDate: string;
   status : 'Draft' | 'UnderReview' | 'Approved';
   category?: string;

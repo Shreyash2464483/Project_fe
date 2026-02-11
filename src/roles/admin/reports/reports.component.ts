@@ -74,7 +74,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
         this.departmentReports = departments.map((dept) => {
           const deptUsers = users.filter((u) => u.department === dept);
           const deptUserIds = deptUsers.map((u) => u.userID);
-          const deptIdeas = ideas.filter((i) => deptUserIds.includes(i.submittedByUserID));
+          const deptIdeas = ideas.filter((i) => deptUserIds.includes(i.userID));
           const deptApproved = deptIdeas.filter((i) => i.status === 'Approved');
 
           return {
@@ -82,7 +82,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
             ideasSubmitted: deptIdeas.length,
             approvedIdeas: deptApproved.length,
             participationCount: deptUsers.filter((u) =>
-              ideas.some((idea) => idea.submittedByUserID === u.userID)
+              ideas.some((idea) => idea.userID === u.userID)
             ).length,
           };
         }).sort((a, b) => b.ideasSubmitted - a.ideasSubmitted);
