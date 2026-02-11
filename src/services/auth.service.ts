@@ -109,50 +109,57 @@ export class AuthService {
   loginWithCredentials(email: string, password: string): Observable<User> {
     const loginPayload = { email, password };
 
-    return this.http
-      .post(`${this.apiUrl}/login`, loginPayload, { responseType: 'text' })
-      .pipe(
-        tap((token: string) => {
-          // Store JWT token
-          try {
-            if (typeof window !== 'undefined' && window.localStorage) {
-              window.localStorage.setItem('authToken', token);
-            }
-          } catch (error) {
-            console.error('Error storing token:', error);
+    return this.http.post<any>(`${this.apiUrl}/login`, loginPayload).pipe(
+      tap((response: any) => {
+        console.log('Login response from backend:', response);
+        // Extract token from response object
+        const token = typeof response === 'string' ? response : response.token;
+        console.log('Extracted token:', token ? 'Token exists' : 'No token');
+
+        // Store JWT token
+        try {
+          if (token && typeof window !== 'undefined' && window.localStorage) {
+            window.localStorage.setItem('authToken', token);
+            console.log('Token stored in localStorage');
           }
-        }),
-        map((token: string) => {
-          // Decode JWT to get user info
-          const payload = this.decodeJWT(token);
+        } catch (error) {
+          console.error('Error storing token:', error);
+        }
+      }),
+      map((response: any) => {
+        // Extract token from response
+        const token = typeof response === 'string' ? response : response.token;
 
-          // Create user object from JWT payload
-          const user: User = {
-            userID: payload.sub || Date.now(),
-            name:
-              payload[
-                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-              ] ||
-              payload.name ||
-              'User',
-            email: payload.email || email,
-            role: this.normalizeRole(
-              payload[
-                'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-              ] ||
-                payload.role ||
-                'employee',
-            ),
-            status: (payload.status || 'Active') as 'Active' | 'Inactive',
-            department: payload.department,
-          };
+        // Decode JWT to get user info
+        const payload = this.decodeJWT(token);
 
-          // Store user in service
-          this.login(user);
+        // Create user object from JWT payload
+        const user: User = {
+          userID: payload.sub || Date.now(),
+          name:
+            payload[
+              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+            ] ||
+            payload.name ||
+            'User',
+          email: payload.email || email,
+          role: this.normalizeRole(
+            payload[
+              'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+            ] ||
+              payload.role ||
+              'employee',
+          ),
+          status: (payload.status || 'Active') as 'Active' | 'Inactive',
+          department: payload.department,
+        };
 
-          return user;
-        }),
-      );
+        // Store user in service
+        this.login(user);
+
+        return user;
+      }),
+    );
   }
 
   // Helper function to decode JWT token

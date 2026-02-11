@@ -4,7 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IdeaService } from '../../../services/idea.service';
 import { AuthService } from '../../../services/auth.service';
-import { Idea, Comment as IdeaComment, Review, User } from '../../../models/model';
+import {
+  Idea,
+  Comment as IdeaComment,
+  Review,
+  User,
+} from '../../../models/model';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,20 +32,22 @@ export class DashboardComponent implements OnInit {
     if (this.filterStatus === 'All') {
       return this.ideas;
     }
-    return this.ideas.filter(idea => idea.status === this.filterStatus);
+    return this.ideas.filter((idea) => idea.status === this.filterStatus);
   }
 
   constructor(
     private ideaService: IdeaService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.loadCurrentUser();
+    // Load fresh ideas from backend for the current user session
+    this.ideaService.loadIdeas();
+    // Subscribe to get updates whenever ideas change
     this.ideaService.getAllIdeas().subscribe((list) => {
       this.ideas = list;
-      if (!this.selected && this.ideas.length) {
-      }
+      console.log('Dashboard received ideas:', this.ideas.length, 'ideas');
     });
   }
 

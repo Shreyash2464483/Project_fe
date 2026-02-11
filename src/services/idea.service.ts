@@ -10,25 +10,28 @@ export class IdeaService {
   private apiUrl = 'https://localhost:7175/api/Idea';
 
   constructor(private http: HttpClient) {
-    this.loadIdeas();
+    // Don't auto-load - let components request fresh data when needed
   }
 
-  private loadIdeas(): void {
+  loadIdeas(): void {
+    console.log('Loading ideas from backend...');
     this.http.get<any[]>(`${this.apiUrl}/all`).subscribe({
       next: (ideas) => {
+        console.log('Raw ideas from backend:', ideas);
         // Map backend response to frontend Idea model
         const mappedIdeas = ideas.map((idea) => ({
-          ideaID: idea.ideaID,
+          ideaID: idea.ideaId || idea.ideaID,
           title: idea.title,
           description: idea.description,
-          categoryID: idea.categoryID,
-          userID: idea.userID,
+          categoryID: idea.categoryId || idea.categoryID,
+          userID: idea.userId || idea.userID,
           submittedDate: idea.submittedDate || new Date().toISOString(),
           status: idea.status || 'UnderReview',
           category: idea.categoryName || idea.category || '',
           upvotes: idea.upvotes || 0,
           downvotes: idea.downvotes || 0,
         }));
+        console.log('Mapped ideas:', mappedIdeas);
         this.ideas$.next(mappedIdeas);
       },
       error: (error) => {
@@ -50,18 +53,18 @@ export class IdeaService {
       tap((ideas) => {
         // Map backend response to frontend Idea model
         const mappedIdeas = ideas.map((idea) => ({
-          ideaID: idea.ideaID,
+          ideaID: idea.ideaID || idea.ideaID,
           title: idea.title,
           description: idea.description,
-          categoryID: idea.categoryID,
-          userID: idea.userID,
+          categoryID: idea.categoryID || idea.categoryID,
+          userID: idea.userID || idea.userID,
           submittedDate: idea.submittedDate || new Date().toISOString(),
           status: idea.status || 'UnderReview',
           category: idea.category || idea.category || '',
           upvotes: idea.upvotes || 0,
           downvotes: idea.downvotes || 0,
         }));
-        return mappedIdeas;
+        console.log('Mapped my ideas:', mappedIdeas);
       }),
     );
   }
@@ -87,12 +90,13 @@ export class IdeaService {
 
     return this.http.post<any>(`${this.apiUrl}/submit`, payload).pipe(
       tap((response: any) => {
+        console.log('Create idea response:', response);
         const newIdea: Idea = {
-          ideaID: response.ideaId,
+          ideaID: response.ideaId || response.ideaID,
           title: response.title,
           description: response.description,
-          categoryID: response.categoryID,
-          userID: response.userID,
+          categoryID: response.categoryId || response.categoryID,
+          userID: response.userId || response.userID,
           submittedDate: response.submittedDate || new Date().toISOString(),
           status: response.status || 'UnderReview',
           category: response.categoryName || response.category || '',
