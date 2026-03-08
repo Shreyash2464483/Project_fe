@@ -48,14 +48,7 @@ export class CreateideaComponent implements OnInit {
           Validators.maxLength(200),
         ],
       ],
-      description: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(100),
-        ],
-      ],
+      description: ['', [Validators.required, Validators.minLength(10)]],
       categoryID: ['', Validators.required],
       status: ['UnderReview'],
     });
@@ -82,6 +75,7 @@ export class CreateideaComponent implements OnInit {
           console.log(`${key} errors:`, control.errors);
         }
       });
+      this.showToast('Please fix the validation errors', 'error');
       return;
     }
 
@@ -98,12 +92,12 @@ export class CreateideaComponent implements OnInit {
       categoryID: categoryID, // Keep as string (GUID)
     };
 
-    console.log('Submitting idea with payload:', payload);
-    console.log('Form values:', this.form.value);
+    // console.log('Submitting idea with payload:', payload);
+    // console.log('Form values:', this.form.value);
 
     this.ideaService.createIdea(payload).subscribe({
       next: (response) => {
-        console.log('Idea created successfully:', response);
+        // console.log('Idea created successfully:', response);
         // Trigger immediate notification refresh for managers
         setTimeout(() => {
           this.notificationService.refresh();
