@@ -116,9 +116,9 @@ export class CreateideaComponent implements OnInit {
 
         if (error.error) {
           if (typeof error.error === 'string') {
-            errorMsg = error.error;
+            errorMsg = error.error.replace('one more validation error occurred', 'Limit exceeded');
           } else if (error.error.message) {
-            errorMsg = error.error.message;
+            errorMsg = error.error.message.replace('one more validation error occurred', 'Limit exceeded');
           } else if (error.error.title) {
             errorMsg = error.error.title;
           } else {

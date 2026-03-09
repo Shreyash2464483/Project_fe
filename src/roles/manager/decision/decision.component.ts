@@ -178,7 +178,8 @@ export class DecisionComponent implements OnInit {
           console.log('Feedback submitted successfully:', response);
           this.feedback = '';
           this.isSubmittingFeedback = false;
-          this.showSuccess('Feedback submitted successfully');
+          // use top-right toast instead of bottom popup
+          this.showToast('Feedback submitted successfully', 'success');
 
           // Reload comments and reviews
           if (this.selected) {
@@ -385,15 +386,8 @@ export class DecisionComponent implements OnInit {
   }
 
   private showSuccess(message: string): void {
-    this.successMessage = message;
-    if (this.successTimeout) {
-      clearTimeout(this.successTimeout);
-    }
-    this.cdr.detectChanges();
-    this.successTimeout = setTimeout(() => {
-      this.successMessage = '';
-      this.cdr.detectChanges();
-    }, 3000);
+    // delegate to toast for consistency with other notifications
+    this.showToast(message, 'success');
   }
 
   private showToast(
