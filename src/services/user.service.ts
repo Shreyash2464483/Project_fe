@@ -4,18 +4,6 @@ import { User, UserRole } from '../models/model';
 import { HttpClient } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
 
-export const DEPARTMENTS = [
-  'Engineering',
-  'Marketing',
-  'Sales',
-  'HR',
-  'Finance',
-  'Operations',
-  'Customer Support',
-  'Product',
-  'Executive',
-  'Other',
-];
 
 export interface UserStatistics {
   totalUsers: number;
@@ -280,12 +268,6 @@ export class UserService {
       );
   }
 
-  /**
-   * Get users by department (frontend filtering from cached data)
-   */
-  getUsersByDepartment(department: string): User[] {
-    return this.users$.value.filter((u) => u.department === department);
-  }
 
   /**
    * Check if email already exists (for validation)
